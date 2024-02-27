@@ -7,13 +7,29 @@ import { CreateCreditCardDto } from './dto';
 export class CreditCardService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getCreditCard(): Promise<CreditCard[]> {
+  async getAllCreditCards(): Promise<CreditCard[]> {
     return await this.prisma.creditCard.findMany();
+  }
+
+  async getCreditCardById(id: number): Promise<CreditCard> {
+    return await this.prisma.creditCard.findUnique({
+      where: {
+        id: id,
+      },
+    });
   }
 
   async createCreditCard(data: CreateCreditCardDto): Promise<CreditCard> {
     return await this.prisma.creditCard.create({
       data,
+    });
+  }
+
+  async deleteCreditCard(id: number): Promise<CreditCard> {
+    return await this.prisma.creditCard.delete({
+      where: {
+        id: id,
+      },
     });
   }
 }
